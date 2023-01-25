@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "757240282447",
+    "project_id": "makingapi-69f83",
+    "storage_bucket": "makingapi-69f83.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:757240282447:android:3c3da2d6ea9f5c8c8cd93a",
+        "android_client_info": {
+          "package_name": "com.example.tsr_management"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "757240282447-mpfgs3buncll9rr22nt6d3amm0ifj8a4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCFGhRZgy_4Fod2ZgLX7b-YEsubXU5g0I4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "757240282447-mpfgs3buncll9rr22nt6d3amm0ifj8a4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
