@@ -4,14 +4,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:tsr_management/DatabaseManager/database.dart';
 import 'package:tsr_management/Pages/home_page.dart';
 import 'package:tsr_management/Pages/record_page.dart';
 import 'package:tsr_management/componet_design/appbar.dart';
 
 class CallLater extends StatefulWidget {
-  CallLater({Key? key, required this.documentId}) : super(key: key);
+  CallLater({Key? key, required this.UID, required this.documentId})
+      : super(key: key);
   var documentId;
+  var UID;
 
   @override
   State<CallLater> createState() => _CallLaterState();
@@ -43,67 +47,6 @@ class _CallLaterState extends State<CallLater> {
         _date1 = value!;
       });
     });
-  }
-
-  void addResponse(phoneNumber, timeTocall, dateToCall) async {
-    await FirebaseFirestore.instance
-        .collection('userResponse')
-        .doc(phoneNumber)
-        .get()
-        .then((docSnapshot) {
-      if (docSnapshot.exists) {
-        FirebaseFirestore.instance
-            .collection('userResponse')
-            .doc(phoneNumber)
-            .update({
-          'sector': 'Call Later',
-          'date': dateToCall,
-          'time': timeTocall,
-        });
-        FirebaseFirestore.instance
-            .collection('userResponse')
-            .doc(phoneNumber)
-            .collection('response')
-            .doc()
-            .set({
-          'date': DateFormat.yMd().format(DateTime.now()),
-          'time': DateFormat.jm().format(DateTime.now()),
-          'response':
-              'Customer Suggest to Call Later at $dateToCall $timeTocall'
-        });
-      } else {
-        FirebaseFirestore.instance
-            .collection('userResponse')
-            .doc(phoneNumber)
-            .set({
-          'contactNumber': phoneNumber,
-          'sector': 'Call Later',
-          'emailId': '',
-          'customerName': 'Unknow',
-          'organisation': '',
-          'website': '',
-          'whatsappNo': '',
-          'date': dateToCall,
-          'time': timeTocall,
-        });
-        FirebaseFirestore.instance
-            .collection('userResponse')
-            .doc(phoneNumber)
-            .collection('response')
-            .doc()
-            .set({
-          'date': DateFormat.yMd().format(DateTime.now()),
-          'time': DateFormat.jm().format(DateTime.now()),
-          'response':
-              'Customer Suggest to Call Later at $dateToCall $timeTocall'
-        });
-      }
-    });
-    Fluttertoast.showToast(msg: "Number Added to Call Later");
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => HomePage()),
-    );
   }
 
   @override
@@ -159,8 +102,9 @@ class _CallLaterState extends State<CallLater> {
                     size: 24.0,
                   ),
                   onPressed: () {
-                    addResponse(
-                      '${widget.documentId}',
+                    addCallLater(
+                      widget.UID,
+                      widget.documentId,
                       _timeOfDay.format(context).toString(),
                       DateFormat.yMd().format(_date1),
                     );

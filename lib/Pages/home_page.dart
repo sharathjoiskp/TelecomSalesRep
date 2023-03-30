@@ -1,12 +1,14 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:tsr_management/Pages/employee_profile.dart';
+import 'package:tsr_management/Pages/not_intersted.dart';
 import 'package:tsr_management/Pages/dailer_page.dart';
-import 'package:tsr_management/Pages/dammyPage.dart';
-import 'package:tsr_management/Pages/dontcall_page.dart';
+
 import 'package:tsr_management/Pages/record_page.dart';
-import 'package:tsr_management/Pages/remeber_page.dart';
+import 'package:tsr_management/Pages/remainder_page.dart';
 
 import '../componet_design/appbar.dart';
 
@@ -18,12 +20,14 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  @override
   int currentIndex = 0;
   final screens = [
     DailerPage(),
     RecordPage(),
     RememberPage(),
-    DontCallPage(),
+    NotIntersted(),
+    EmployeProfile(),
   ];
 
   @override
@@ -32,15 +36,15 @@ class _HomePageState extends State<HomePage> {
       appBar: null,
       body: screens[currentIndex],
       bottomNavigationBar: Container(
-        color: Colors.brown,
+        color: Colors.indigo,
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15.0),
+          padding: const EdgeInsets.symmetric(horizontal: 1.0),
           child: GNav(
-              backgroundColor: Colors.brown,
+              backgroundColor: Colors.indigo,
               color: Colors.white,
               activeColor: Colors.white,
               tabBackgroundColor: Colors.grey.shade800,
-              gap: 8,
+              gap: 0,
               onTabChange: (index) {
                 setState(() {
                   currentIndex = index;
@@ -49,24 +53,24 @@ class _HomePageState extends State<HomePage> {
               tabs: [
                 GButton(
                   icon: Icons.dialpad,
-                  text: 'Call',
+               //   text: 'Call',
                 ),
                 GButton(
                   icon: Icons.history,
-                  text: 'Record',
+                 // text: 'Record',
                 ),
                 GButton(
                   icon: Icons.phone_missed,
-                  text: 'Call Later',
+                 // text: 'Call Later',
                 ),
                 GButton(
                   icon: Icons.call_outlined,
-                  text: 'Dont Call',
+                 // text: 'Dont Call',
                 ),
-                // GButton(
-                //   icon: Icons.not_interested,
-                //   text: 'Dammy',
-                // ),
+                GButton(
+                  icon: Icons.account_circle,
+                 // text: 'Profile',
+                ),
               ]),
         ),
       ),

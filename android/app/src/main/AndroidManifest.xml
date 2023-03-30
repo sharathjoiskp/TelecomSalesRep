@@ -14,7 +14,7 @@
     </intent>
     </queries>
    <application
-        android:label="tsr_management"
+        android:label="TSR"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

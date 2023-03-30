@@ -8,8 +8,10 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 
 class CustomerProfilePage extends StatefulWidget {
-  CustomerProfilePage({Key? key, required this.documentId}) : super(key: key);
+  CustomerProfilePage({Key? key, required this.uid, required this.documentId})
+      : super(key: key);
   var documentId;
+  String uid;
 
   @override
   State<CustomerProfilePage> createState() => _CustomerProfilePageState();
@@ -25,8 +27,10 @@ class _CustomerProfilePageState extends State<CustomerProfilePage> {
   TextEditingController whatsappNoController = TextEditingController();
   void editProfile() async {
     await FirebaseFirestore.instance
+        .collection('USER_RESPONSE')
+        .doc(widget.uid)
         .collection('userResponse')
-        .doc('${widget.documentId}')
+        .doc(widget.documentId)
         .update({
       'customerName': customerNameController.text,
       'organisation': organisationController.text,
@@ -41,6 +45,8 @@ class _CustomerProfilePageState extends State<CustomerProfilePage> {
 
   void deleteProfile() async {
     await FirebaseFirestore.instance
+        .collection('USER_RESPONSE')
+        .doc(widget.uid)
         .collection('userResponse')
         .doc('${widget.documentId}')
         .delete();
@@ -50,11 +56,13 @@ class _CustomerProfilePageState extends State<CustomerProfilePage> {
 
   @override
   Widget build(BuildContext context) {
-    CollectionReference customer =
-        FirebaseFirestore.instance.collection('userResponse');
+    CollectionReference customer = FirebaseFirestore.instance
+        .collection('USER_RESPONSE')
+        .doc(widget.uid)
+        .collection('userResponse');
 
     return FutureBuilder<DocumentSnapshot>(
-      future: customer.doc('${widget.documentId}').get(),
+      future: customer.doc(widget.documentId).get(),
       builder:
           (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
         if (snapshot.hasError) {
@@ -71,7 +79,7 @@ class _CustomerProfilePageState extends State<CustomerProfilePage> {
           return Card(
               elevation: 15,
               child: Container(
-                color: Colors.brown.shade400,
+                color: Colors.indigo.shade100,
                 child: SingleChildScrollView(
                   child: Column(
                     children: [
@@ -93,7 +101,7 @@ class _CustomerProfilePageState extends State<CustomerProfilePage> {
                                     return SingleChildScrollView(
                                       child: Container(
                                         child: AlertDialog(
-                                              backgroundColor: Colors.grey.shade600,
+                                          backgroundColor: Colors.grey.shade600,
                                           content: Column(
                                             children: [
                                               TextField(
@@ -242,8 +250,6 @@ class _CustomerProfilePageState extends State<CustomerProfilePage> {
                                       ),
                                     );
                                   });
-
-                           
                             },
                             icon: Icon(Icons.edit),
                           ),
@@ -273,11 +279,12 @@ class _CustomerProfilePageState extends State<CustomerProfilePage> {
         children: [
           Text(
             label,
-            style: const TextStyle(color: Colors.white, fontSize: 18),
+            style: const TextStyle(color: Colors.black, fontSize: 18),
           ),
           Text(
             value,
-            style: const TextStyle(color: Colors.white, fontSize: 14),
+            style: const TextStyle(
+                color: Colors.black, fontSize: 14, fontWeight: FontWeight.bold),
           ),
         ],
       ),
@@ -299,5 +306,4 @@ class _CustomerProfilePageState extends State<CustomerProfilePage> {
       minLines: 1,
     );
   }
-
 }

@@ -1,10 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
-import 'package:tsr_management/Auth/auth.dart';
+import 'package:tsr_management/Pages/Auth/auth_screen.dart';
+
 import 'package:tsr_management/Pages/home_page.dart';
-import 'package:tsr_management/Pages/response_page.dart';
-import 'package:tsr_management/componet_design/appbar.dart';
+
 import 'package:tsr_management/firebase_options.dart';
 
 void main() async {
@@ -23,14 +24,18 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'TSR',
-      theme: ThemeData(
-          //primarySwatch: Colors.brown.,
-          //scaffoldBackgroundColor: Colors.tealAccent,
-          ),
       home:
-          //AuthPage(),
-          HomePage(),
-      // ResponsePage(contactNumber: '7619129190',),
+      
+       StreamBuilder(
+        stream: FirebaseAuth.instance.authStateChanges(),
+        builder: (context, usersnapshot) {
+          if (usersnapshot.hasData) {
+            return HomePage();
+          } else {
+            return AuthPage();
+          }
+        },
+      ),
     );
   }
 }
